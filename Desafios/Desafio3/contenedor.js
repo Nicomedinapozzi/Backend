@@ -7,12 +7,12 @@ class Product {
   }
 }
 
-module.exports = class Container {
-  constructor(name){
-    this.name = name
+module.exports = class contenedor {
+  constructor(nombre){
+    this.nombre = nombre
 
     try {
-      this.products = fs.readFileSync(this.name, 'utf-8')
+      this.products = fs.readFileSync(this.nombre, 'utf-8')
       this.products = JSON.parse(this.products)
     } catch (error) {
       this.products = []
@@ -63,7 +63,7 @@ module.exports = class Container {
 
   delete(){
 
-    fs.truncateSync(this.name, 0, () => console.log('Contenido Borrado'))
+    fs.truncateSync(this.nombre, 0, () => console.log('Contenido Borrado'))
   }
 
   deleteById(id){
@@ -76,7 +76,7 @@ module.exports = class Container {
 
      }
     
-      fs.promises.writeFile(this.name, JSON.stringify(this.products, null, '\t'))
+      fs.promises.writeFile(this.nombre, JSON.stringify(this.products, null, '\t'))
 	.then((e) => console.log(`El producto con ID ${id} ha sido eliminado`))
 	.catch(e => console.log(`Error ${e}`))
 
