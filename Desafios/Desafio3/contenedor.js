@@ -1,9 +1,9 @@
 const fs = require('fs')
 
-class Product {
-  constructor(title, price){
-    this.title = title
-    this.price = price
+class Producto {
+  constructor(articulo, precio){
+    this.articulo = articulo
+    this.precio = precio
   }
 }
 
@@ -12,47 +12,47 @@ module.exports = class contenedor {
     this.nombre = nombre
 
     try {
-      this.products = fs.readFileSync(this.nombre, 'utf-8')
-      this.products = JSON.parse(this.products)
+      this.productos = fs.readFileSync(this.nombre, 'utf-8')
+      this.productos = JSON.parse(this.productos)
     } catch (error) {
-      this.products = []
+      this.productos = []
     }
   }
 
 
   getAll(){
-    return this.products
+    return this.productos
   }
 
   getById(id){
     try {
-      let product = { id }
-      for(let i = 0; i < this.products.length; i++){
-	if(product.id == this.products[i].id){
-	  product = this.products[i]
+      let producto = { id }
+      for(let i = 0; i < this.productos.length; i++){
+	if(producto.id == this.productos[i].id){
+	  producto = this.productos[i]
 	}
       }
 
-      return product
+      return producto
     } catch (error) {
       return error
     }
   }
 
   getRandom(){
-    return this.getById(Math.floor(Math.random() * this.products.length) + 1)
+    return this.getById(Math.floor(Math.random() * this.productos.length) + 1)
   }
 
-  save(title, price){
+  save(articulo, precio){
     try {
-      let newProduct = new Product(title, price)
-      if (this.products.length == 0){
-	newProduct.id = 1
+      let nuevoProducto = new Producto (articulo, precio)
+      if (this.productos.length == 0){
+	nuevoProducto.id = 1
       } else {
-	newProduct.id = this.products[this.products.length - 1].id + 1
+	nuevoProducto.id = this.productos[this.productos.length - 1].id + 1
       }
-      this.products.push(newProduct)
-      fs.promises.writeFile(this.name, JSON.stringify(this.products, null, '\t'))
+      this.productos.push(nuevoProducto)
+      fs.promises.writeFile(this.name, JSON.stringify(this.productos, null, '\t'))
 	.then(() => console.log('Producto guardado!'))
 	.catch(e => console.log(e))
 
@@ -68,15 +68,15 @@ module.exports = class contenedor {
 
   deleteById(id){
     try {
-      for(let i = 0; i < this.products.length; i++){
-	if(id == this.products[i].id){
-	  this.products.splice(id - 1, 1)
+      for(let i = 0; i < this.productos.length; i++){
+	if(id == this.productos[i].id){
+	  this.productos.splice(id - 1, 1)
 	  
 	     }
 
      }
     
-      fs.promises.writeFile(this.nombre, JSON.stringify(this.products, null, '\t'))
+      fs.promises.writeFile(this.nombre, JSON.stringify(this.productos, null, '\t'))
 	.then((e) => console.log(`El producto con ID ${id} ha sido eliminado`))
 	.catch(e => console.log(`Error ${e}`))
 
